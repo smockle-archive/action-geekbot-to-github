@@ -1,0 +1,25 @@
+name: "action-geekbot-to-github"
+author: "smockle"
+description: "Add content from Geekbot reports to a GitHub issue."
+inputs:
+  standup_id:
+    description: "Unique identifier for a specific Geekbot standup."
+    required: true
+  question_id:
+    description: "Unique identifier for a specific question in a Geekbot standup."
+    required: true
+  owner:
+    description: "The owner of the repo containing the issue in which to comment. This is a GitHub username if the repo is user-owned, or a GitHub org name if the repo is org-owned."
+    required: false
+  repo:
+    description: "The name of the repo containing the issue in which to comment."
+    required: false
+  issue_number:
+    description: "The issue number for the issue in which to comment."
+    required: true
+runs:
+  using: "node12"
+  main: "index.js"
+branding:
+  icon: "message-square"
+  color: "blue"

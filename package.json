@@ -1,0 +1,21 @@
+{
+  "name": "action-geekbot-to-github",
+  "description": "Add content from Geekbot reports to a GitHub issue.",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/smockle/action-geekbot-to-github.git"
+  },
+  "author": "Clay Miller <clay@smockle.com> (https://www.smockle.com/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/smockle/action-geekbot-to-github/issues"
+  },
+  "homepage": "https://github.com/smockle/action-geekbot-to-github#readme",
+  "dependencies": {
+    "@actions/core": "^1.6.0",
+    "@actions/github": "^5.0.0",
+    "node-fetch": "^2.6.6"
+  }
+}
