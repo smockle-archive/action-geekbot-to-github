@@ -10,14 +10,49 @@ const weekInMilliseconds = 7 * 24 * 60 * 60 * 1000;
   try {
     // Retrieve required environment variables and inputs
     const githubToken = process.env.GH_TOKEN;
+    if (!githubToken) {
+      throw new Error(
+        "Failed to retrieve a GitHub token. Does this repository have a secret named 'GH_TOKEN'? https://docs.github.com/en/actions/reference/encrypted-secrets#creating-encrypted-secrets-for-a-repository"
+      );
+    }
     const geekbotAPIKey = process.env.GEEKBOT_API_KEY;
+    if (!geekbotAPIKey) {
+      throw new Error(
+        "Failed to retrieve a Geekbot API key. Does this repository have a secret named 'GEEKBOT_API_KEY'? https://docs.github.com/en/actions/reference/encrypted-secrets#creating-encrypted-secrets-for-a-repository"
+      );
+    }
     const standupId = core.getInput("standup_id", { required: true });
+    if (!standupId) {
+      throw new Error(
+        "Failed to retrieve the standup id. Does the workflow include 'standupId'?"
+      );
+    }
     const questionId = core.getInput("question_id", { required: true });
+    if (!questionId) {
+      throw new Error(
+        "Failed to retrieve the question id. Does the workflow include 'questionId'?"
+      );
+    }
     const owner =
       core.getInput("owner") || github.context.payload.repository?.owner?.login;
+    if (!owner) {
+      throw new Error(
+        `Failed to retrieve 'owner' or to determine it from context ('repository' in 'context': ${github.context.payload.repository}).`
+      );
+    }
     const repo =
       core.getInput("repo") || github.context.payload.repository?.name;
+    if (!repo) {
+      throw new Error(
+        `Failed to retrieve 'repo' or to determine it from context ('repository' in 'context': ${github.context.payload.repository}).`
+      );
+    }
     const issueNumber = core.getInput("issue_number", { required: true });
+    if (!issueNumber) {
+      throw new Error(
+        "Failed to retrieve the question id. Does the workflow include 'issueNumber'?"
+      );
+    }
 
     // Fetch reports within the last week for the specific standup and question
     const response = await fetch(
@@ -34,9 +69,15 @@ const weekInMilliseconds = 7 * 24 * 60 * 60 * 1000;
         },
       }
     );
+    const json = await response.json();
+    if (!json) {
+      throw new Error(
+        `Failed to fetch reports matching standup ${standupId} and question ${questionId}.`
+      );
+    }
 
     // Omit reports which didn’t answer the question
-    const reports = (await response.json()).reduce((reports, report) => {
+    const reports = json.reduce((reports, report) => {
       if (report.questions.length > 0) {
         reports[report.member.username] = report.questions[0].answer;
       }
