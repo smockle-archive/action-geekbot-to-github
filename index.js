@@ -42,6 +42,12 @@ const weekInMilliseconds = 7 * 24 * 60 * 60 * 1000;
       }
       return reports;
     }, {});
+    if (Object.entries(reports).length === 0) {
+      console.log(
+        `Question ${questionId} from standup ${standupId} was not answered within the last week.`
+      );
+      return;
+    }
 
     // Format reports
     const body = Object.entries(reports).reduce((body, [username, ship]) => {
