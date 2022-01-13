@@ -18,7 +18,7 @@ inputs:
     description: "The issue number for the issue in which to comment."
     required: true
 runs:
-  using: "node12"
+  using: "node16"
   main: "index.js"
 branding:
   icon: "message-square"
