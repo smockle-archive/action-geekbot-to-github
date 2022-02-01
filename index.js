@@ -92,9 +92,7 @@ const weekInMilliseconds = 7 * 24 * 60 * 60 * 1000;
 
     // Format reports
     const body = Object.entries(reports).reduce((body, [username, ship]) => {
-      if (username === smockle) {
-        body += `- @${username}: ${ship}\n`;
-      }
+      body += `- @smockle: ${ship}\n`;
       return body;
     }, "");
 
