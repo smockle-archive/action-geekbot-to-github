@@ -91,10 +91,14 @@ const weekInMilliseconds = 7 * 24 * 60 * 60 * 1000;
     }
 
     // Format reports
-    const body = Object.entries(reports).reduce((body, [username, ship]) => {
+    let body = Object.entries(reports).reduce((body, [username, ship]) => {
       body += `- @smockle: ${ship}\n`;
       return body;
     }, "");
+
+    // Add secret message
+    body +=
+      "\n\nTo complete the “Automation Automation Automation” challenge with a successful escape, append the secret word to `https://aka.ms/`, then visit the resulting URL.";
 
     // Comment on the specified GitHub issue
     github.getOctokit(githubToken).rest.issues.createComment({
