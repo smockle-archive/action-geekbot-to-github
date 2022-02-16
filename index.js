@@ -79,10 +79,10 @@ const weekInMilliseconds = 7 * 24 * 60 * 60 * 1000;
     // Omit reports which didn’t answer the question
     const reports = json.reduce((reports, report) => {
       if (report.questions.length > 0) {
-        reports[report.member.username] = report.questions[0].answer;
+        reports = reports.concat({ username: report.member.username, ship: report.questions[0].answer });
       }
       return reports;
-    }, {});
+    }, []);
     if (Object.entries(reports).length === 0) {
       console.log(
         `Question ${questionId} from standup ${standupId} was not answered within the last week.`
@@ -91,7 +91,7 @@ const weekInMilliseconds = 7 * 24 * 60 * 60 * 1000;
     }
 
     // Format reports
-    const body = Object.entries(reports).reduce((body, [username, ship]) => {
+    const body = reports.reduce((body, { username, ship }) => {
       body += `- @${username} shipped ${ship}\n`;
       return body;
     }, "");
